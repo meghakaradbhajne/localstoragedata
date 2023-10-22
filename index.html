@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"> 
+     </script>
+</head>
+<body>
+  <div class="container-fluid bg-dark text-light py-1">
+    <header class="text-center">
+      <h1 class="display-6">Expense Tracker</h1>
+      </header>
+      </div>
+     <form class="row gx-3 gy-2 align-items-center"onsubmit="onLocalStorage(event)">
+        <div class="col-sm-3">
+    <label  class="visually-hidden">expenseampount</label>
+    <input type="text" class="form-control" name="expenseampount" id="ExpenseampountInputTag" placeholder="Choose Expenseamount" required/>
+    </div>
+    <div class="col-sm-3">
+    <label class="visually-hidden">descripption</label>
+    <input type="text"  class="form-control" name="description" id="CdescripptionInputTag"placeholder="Choose descripption" required/>
+    </div>
+    <div class="col-sm-3">
+    <label class="visually-hidden">catagory</label>
+    <select class="form-select" name="catogary" id="choosecatagoryInputTag">
+        <option selected>Choose...</option>
+        <option value="1">Movie</option>
+        <option value="2">Electricity</option>
+        <option value="3">Fual</option>
+        <option value="3">Food</option>
+      </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form> 
+    <div>
+    <ul id="listOfitem">
+         <li class="list-group-item">
+         <input type="button" value="Delete"/> 
+        
+        </li>
+        <li class="list-group-item">
+          <input type="edit"  value="Edit"/>
+        </li> 
+    </ul>
+    </div>
+  <script>
+    function onLocalStorage(event){
+        event.preventDefault();
+        const Expenseampount=event.target.expenseampount.value;
+        const Cdescripption=event.target.description.value;
+        const choosecatagory=event.target.catogary.value;
+    
+
+    const obj={
+        Expenseampount,
+        Cdescripption,
+        choosecatagory
+     }
+     localStorage.setItem(obj.Cdescripption,JSON.stringify(obj))
+     showOnScreenServer(obj)
+    }
+    function showOnScreenServer(obj){
+  const parentele = document.getElementById('listOfitem')
+  const childElem =document.createElement('li');
+  childElem.textContent = obj.Expenseampount +' - ' + obj. Cdescripption +'-' + obj.choosecatagory;
+  parentele.appendChild(childElem);
+   const deletebtn = document.createElement('input');
+         deletebtn.type="button";
+         deletebtn.value="Delete";
+
+         deletebtn.onclick = () => {
+             localStorage.removeItem(obj.Cdescripption);
+             parentele.removeChild(childElem)
+
+        }
+       
+    
+    const editbtn = document.createElement('input')
+    editbtn.type="edit";
+    editbtn.value="Edit";
+
+  editbtn.onclick = () => {
+    localStorage.removeItem(obj.Cdescripption);
+    parentele.removeChild(childElem);
+    document.getElementById('ExpenseampountInputTag').value=obj.Expenseampount;
+    document.getElementById(' CdescripptionInputTag').value=obj.Cdescripption;
+    document.getElementById('choosecatagoryInputTag').value=obj. choosecatagory;
+  }
+  childElem.appendChild(deletebtn);
+  childElem.appendChild(editbtn);
+  parentele.appendChild(childElem);
+}
+    </script>
+</body>
+</html>
